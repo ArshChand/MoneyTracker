@@ -5,33 +5,44 @@ import { useState } from 'react';
 function App() {
   const[name,setName] = useState('');  
   const[datetime,setDatetime] = useState('');  
-  const[description,setDescription] = useState('');  
   const[amount,setAmount] = useState(''); 
-  const[balance,setBalance] = useState(100);  
+  const [category, setCategory] = useState('');
+  const[balance,setBalance] = useState(100); 
+  const [filterCategory, setFilterCategory] = useState('');
+  
+  const categories = [
+    "Salary", "Investments", "Other Income",
+    "Food & Drinks", "Rent & Bills", "Transport", "Entertainment",
+    "Healthcare", "Shopping", "Education", "Other Expenses"
+  ];
 
   const[transactions,setTransactions] = useState([
     {
       id: 1,
       name: "New Pringles",
-      description: "Hungry!",
       amount: -100,
+      category: "Food & Drinks",
       datetime: "2025-01-01T11:11"
     },
     {
       id: 2,
       name: "Found cash",
-      description: "yayaayya!!",
       amount: 300,
+      category: "Other Income",
       datetime: "2025-01-03T14:20"
     },
     {
       id: 3,
       name: "Mobile Repair",
-      description: "Screw that thing",
       amount: -100,
+      category: "Other Expenses",
       datetime: "2025-01-11T19:23"
     }
-  ]);  
+  ]); 
+  
+  const filteredTransactions = filterCategory
+        ? transactions.filter(transaction => transaction.category === filterCategory)
+        : transactions;
 
   function handleSubmit(e){ 
     e.preventDefault(); 
@@ -41,8 +52,8 @@ function App() {
     const newTransaction = {
       id: Date.now(),
       name,
-      description,
       amount: amountvalue,
+      category,
       datetime
     };
 
@@ -50,8 +61,9 @@ function App() {
     setBalance(prevBalance => prevBalance + amountvalue);
     setName('');
     setDatetime('');
-    setDescription('');
     setAmount(''); 
+    setCategory('');
+    setFilterCategory('');
   }
 
   function formatDate(date){
@@ -67,7 +79,9 @@ function App() {
 
   return (
     <main>
-      <h1 className={`balance ${balance < 0 ? 'red' : ''}`}>Balance:{balance}Rs</h1>
+      <h1 className="balance">
+        Balance: <span className={balance < 0 ? 'red' : 'green'}>{balance}Rs</span>
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="basic">
             <input type="text" 
@@ -80,12 +94,6 @@ function App() {
                   onChange={(e)=>setDatetime(e.target.value)}
                   required />
         </div> 
-        <div className="description">
-          <input type="text" 
-                 value={description}
-                 onChange={(e)=>setDescription(e.target.value)} 
-                 placeholder="description" />
-        </div>
         <div className="amount">
           <input type="number"
                  value={amount}
@@ -93,14 +101,32 @@ function App() {
                  placeholder="Amount (use - for expenses)"
                  required />
         </div>
+        <div className="category">
+          <select value={category} onChange={(e) => setCategory(e.target.value)} 
+            required>
+            <option value="">Select Category</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
         <button type="submit">Add Transaction</button> 
       </form>
+      <div className="filter">
+        <h6 className='fil-head'>Filter by Category:</h6>
+        <select className="fil-cat" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
+          <option value="">All</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+      </div>
       <div className="Transactions">
-        {transactions.map(transaction => (
+        {filteredTransactions.map(transaction => (
           <div className="Transaction" key={transaction.id}>
             <div className="left">
               <div className="name">{transaction.name}</div>
-              <div className="description">{transaction.description}</div>
+              <div className="category">Category: {transaction.category}</div>
             </div>
             <div className="right">
               <div className={`price ${transaction.amount < 0 ? 'red' : ''}`}>

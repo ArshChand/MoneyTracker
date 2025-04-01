@@ -13,16 +13,17 @@ main{
   margin: 30px auto;
 }
 
-h1 {
+h1.balance {
   text-align: center;
-  color: rgb(56, 230, 56);
   margin:0;
 }
 
-h1.red{
-  text-align: center;
-  color: red;
-  margin:0;
+h1.balance .green{
+  color : rgb(56, 230, 56)
+}
+
+h1.balance .red{
+  color : red
 }
 
 form{
@@ -64,18 +65,14 @@ div.Transactions{
 
 div.Transaction{
   display: flex !important;
-  justify-content: space-around !important;
-  padding: 5px 0 !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap;
+  padding: 8px 0 !important;
   border-top: 1px solid #30313d;
 }
 
 div.Transaction:first-child{
   border-top: 0;
-}
-
-div.Transaction div.description{
-  font-size: 0.7em;
-  color:#716a6a
 }
 
 div.right{
@@ -88,4 +85,68 @@ div.price{
 
 div.price.red{
   color : red
+}
+
+form div.category {
+  margin-top: 5px;
+}
+
+form select {
+  width: 100%;
+  background-color: transparent;
+  color: #777;
+  border: 2px solid #30313d;
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-size: 0.7em;
+}
+
+div.Transaction div.category{
+  font-size: 0.7em;
+  font-style: italic;
+  color: #a8a8a8;
+  margin-top: 2px;
+  width: 100%;
+}
+
+div.Transaction .date {
+  font-size: 0.7em;
+  color: #777;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  margin: px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #333;
+}
+
+.filter h6{
+  margin: 0;
+  margin-right: 8px;
+  font-size: 18px;
+  color: #fff;
+}
+
+.fil-cat {
+  background-color: #1a1a1a;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 16px;
+  min-width: 180px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 30px;
+}
+
+.fil-cat:focus {
+  outline: none;
+  border-color: #95e897;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
